@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="1dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/iv_profile_photo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/account_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_teacher_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_rg"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/btn_give_response"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_photo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Souvik Mondal" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_light"
+            android:maxLines="1"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btn_give_response"
+            app:layout_constraintStart_toStartOf="@id/tv_teacher_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_teacher_name"
+            tools:text="23 September, 2023" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_code"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Code"
+            app:counterEnabled="true"
+            app:counterMaxLength="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_photo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_rg"
+                android:inputType="number"
+                android:maxLength="4"
+                android:maxLines="1"
+                android:scrollHorizontally="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_location_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-16dp"
+            android:fontFamily="@font/roboto_light"
+            app:layout_constraintStart_toStartOf="@id/tf_code"
+            app:layout_constraintTop_toBottomOf="@id/tf_code" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_give_response"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:paddingHorizontal="16dp"
+            android:text="Give response"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

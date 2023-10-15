@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_student"
+    app:startDestination="@id/attendanceStudentFragment">
+
+    <fragment
+        android:id="@+id/attendanceStudentFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AttendanceStudentFragment"
+        android:label="fragment_attendance_student"
+        tools:layout="@layout/fragment_attendance_student" >
+        <action
+            android:id="@+id/action_attendanceStudentFragment_to_aboutStudentFragment"
+            app:destination="@id/aboutStudentFragment" />
+        <action
+            android:id="@+id/action_attendanceStudentFragment_to_attendanceHistoryStudentFragment"
+            app:destination="@id/attendanceHistoryStudentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/communicateStudentFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.CommunicateStudentFragment"
+        android:label="fragment_communicate_student"
+        tools:layout="@layout/fragment_communicate_student" />
+    <fragment
+        android:id="@+id/participantsStudentFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ParticipantsStudentFragment"
+        android:label="fragment_participants_student"
+        tools:layout="@layout/fragment_participants_student" />
+    <fragment
+        android:id="@+id/aboutStudentFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AboutStudentFragment"
+        android:label="fragment_about_student"
+        tools:layout="@layout/fragment_about_student" />
+    <fragment
+        android:id="@+id/attendanceHistoryStudentFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AttendanceHistoryStudentFragment"
+        android:label="fragment_attendance_history_student"
+        tools:layout="@layout/fragment_attendance_history_student" />
+    <fragment
+        android:id="@+id/communicateFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.CommunicateFragment"
+        android:label="fragment_communicate_teacher"
+        tools:layout="@layout/fragment_communicate" />
+</navigation>

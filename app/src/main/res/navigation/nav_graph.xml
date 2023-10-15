@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_archivedClassesFragment"
+            app:destination="@id/archivedClassesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createClassFragment"
+            app:destination="@id/createClassFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_joinClassFragment"
+            app:destination="@id/joinClassFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_studentRoomFragment"
+            app:destination="@id/studentRoomFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_teacherRoomFragment"
+            app:destination="@id/teacherRoomFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editClassFragment"
+            app:destination="@id/editClassFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_permissionFragment"
+            app:destination="@id/permissionFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AuthFragment"
+        android:label="SignInFragment">
+        <action
+            android:id="@+id/action_signInFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_authFragment_to_permissionFragment"
+            app:destination="@id/permissionFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/createClassFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.CreateClassFragment"
+        android:label="CreateClassFragment" />
+    <fragment
+        android:id="@+id/joinClassFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.JoinClassFragment"
+        android:label="JoinClassFragment">
+        <action
+            android:id="@+id/action_joinClassFragment_to_studentRoomFragment"
+            app:destination="@id/studentRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentRoomFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.StudentRoomFragment"
+        android:label="StudentRoomFragment">
+        <action
+            android:id="@+id/action_studentRoomFragment_to_attendanceStudentFragment2"
+            app:destination="@id/attendanceStudentFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/teacherRoomFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.TeacherRoomFragment"
+        android:label="TeacherRoomFragment" />
+    <fragment
+        android:id="@+id/editClassFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.EditClassFragment"
+        android:label="fragment_edit_class"
+        tools:layout="@layout/fragment_edit_class" />
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.PermissionFragment"
+        android:label="fragment_permission"
+        tools:layout="@layout/fragment_permission">
+        <action
+            android:id="@+id/action_permissionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/permissionFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/attendanceStudentFragment2"
+        android:name="com.kivous.attendanceroom.ui.fragments.AttendanceStudentFragment"
+        android:label="fragment_attendance_student"
+        tools:layout="@layout/fragment_attendance_student" />
+    <fragment
+        android:id="@+id/participantsTeacherFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ParticipantsTeacherFragment"
+        android:label="fragment_participants_teacher"
+        tools:layout="@layout/fragment_participants_teacher" />
+    <fragment
+        android:id="@+id/archivedClassesFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ArchivedClassesFragment"
+        android:label="fragment_archived_classes"
+        tools:layout="@layout/fragment_archived_classes" />
+</navigation>

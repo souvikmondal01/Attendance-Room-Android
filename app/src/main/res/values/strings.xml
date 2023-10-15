@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Attendance Room</string>
+    <string name="description">Helping educators and students\ntake attendance, save time, and communicate.</string>
+    <string name="agree">By joining, you agree to share contact information with people in your class.
+        <a href="">Learn more</a>
+        </string>
+    <string name="sign_in_btn_text">Get started</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="join_class">Join class</string>
+    <string name="create_class">Create class</string>
+</resources>

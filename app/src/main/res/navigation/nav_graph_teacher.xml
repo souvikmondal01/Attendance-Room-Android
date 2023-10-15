@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_teacher"
+    app:startDestination="@id/attendanceTeacherFragment">
+
+    <fragment
+        android:id="@+id/attendanceTeacherFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AttendanceTeacherFragment"
+        android:label="fragment_attendance_teacher"
+        tools:layout="@layout/fragment_attendance_teacher">
+        <action
+            android:id="@+id/action_attendanceTeacherFragment_to_classRoomSettingFragment"
+            app:destination="@id/classRoomSettingFragment" />
+        <action
+            android:id="@+id/action_attendanceTeacherFragment_to_smartAttendanceFragment"
+            app:destination="@id/smartAttendanceFragment" />
+        <action
+            android:id="@+id/action_attendanceTeacherFragment_to_manualAttendanceFragment"
+            app:destination="@id/manualAttendanceFragment" />
+        <action
+            android:id="@+id/action_attendanceTeacherFragment_to_attendanceHistoryFragment"
+            app:destination="@id/attendanceHistoryTeacherFragment" />
+        <action
+            android:id="@+id/action_attendanceTeacherFragment_to_responseListFragment"
+            app:destination="@id/responseListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/communicateFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.CommunicateFragment"
+        android:label="fragment_communicate_teacher"
+        tools:layout="@layout/fragment_communicate" />
+    <fragment
+        android:id="@+id/participantsTeacherFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ParticipantsTeacherFragment"
+        android:label="fragment_participants_teacher"
+        tools:layout="@layout/fragment_participants_teacher" />
+    <fragment
+        android:id="@+id/classRoomSettingFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ClassRoomSettingFragment"
+        android:label="fragment_class_room_setting"
+        tools:layout="@layout/fragment_class_room_setting" />
+    <fragment
+        android:id="@+id/attendanceHistoryTeacherFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.AttendanceHistoryTeacherFragment"
+        android:label="fragment_attendance_history"
+        tools:layout="@layout/fragment_attendance_history_teacher" >
+        <action
+            android:id="@+id/action_attendanceHistoryTeacherFragment_to_finalResponseListFragment"
+            app:destination="@id/finalResponseListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manualAttendanceFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ManualAttendanceFragment"
+        android:label="fragment_manual_attendance"
+        tools:layout="@layout/fragment_manual_attendance" />
+    <fragment
+        android:id="@+id/smartAttendanceFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.SmartAttendanceFragment"
+        android:label="fragment_smart_attendance"
+        tools:layout="@layout/fragment_smart_attendance" />
+    <fragment
+        android:id="@+id/responseListFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.ResponseListFragment"
+        android:label="fragment_attendance_list"
+        tools:layout="@layout/fragment_response_list"/>
+    <fragment
+        android:id="@+id/finalResponseListFragment"
+        android:name="com.kivous.attendanceroom.ui.fragments.FinalResponseListFragment"
+        android:label="fragment_final_response_list"
+        tools:layout="@layout/fragment_final_response_list" />
+</navigation>

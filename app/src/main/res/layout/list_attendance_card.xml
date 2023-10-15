@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="136dp"
+    android:layout_margin="8dp"
+    app:cardElevation="1dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_rg"
+            android:maxLines="1"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/iv_three_dot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Data Structure" />
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_rg"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/iv_three_dot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            tools:text="CSE-AIML" />
+
+        <TextView
+            android:id="@+id/tv_notes"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_rg"
+            android:maxLines="2"
+            app:layout_constraintBottom_toTopOf="@id/tv_response_count"
+            app:layout_constraintEnd_toStartOf="@id/btn_done"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_code"
+            tools:text="CSE-AIML" />
+
+        <TextView
+            android:id="@+id/tv_response_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Wait for responses" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="4dp"
+            android:alpha=".7"
+            android:src="@drawable/keyboard_arrow_right"
+            app:layout_constraintBottom_toBottomOf="@id/tv_response_count"
+            app:layout_constraintStart_toEndOf="@id/tv_response_count"
+            app:layout_constraintTop_toTopOf="@id/tv_response_count" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/v_three_dot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="2dp"
+            app:cardCornerRadius="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp" />
+
+        <ImageView
+            android:id="@+id/iv_three_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/more_vert"
+            app:layout_constraintBottom_toBottomOf="@id/v_three_dot"
+            app:layout_constraintEnd_toEndOf="@id/v_three_dot"
+            app:layout_constraintStart_toStartOf="@id/v_three_dot"
+            app:layout_constraintTop_toTopOf="@id/v_three_dot" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_done"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/roboto_rg"
+            android:text="Done"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

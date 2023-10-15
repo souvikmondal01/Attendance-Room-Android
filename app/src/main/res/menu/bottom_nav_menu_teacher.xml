@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/attendanceTeacherFragment"
+        android:icon="@drawable/checklist_rtl"
+        android:title="Attendance" />
+    <item
+        android:id="@+id/communicateFragment"
+        android:icon="@drawable/chat"
+        android:title="Communicate" />
+
+    <item
+        android:id="@+id/participantsTeacherFragment"
+        android:icon="@drawable/people"
+        android:title="Participants" />
+
+</menu>
