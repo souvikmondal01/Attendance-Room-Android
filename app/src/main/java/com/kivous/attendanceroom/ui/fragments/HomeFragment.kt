@@ -67,9 +67,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        glideCircle(auth.currentUser!!.photoUrl, binding.ivProfile)
+        glideCircle(auth.currentUser?.photoUrl, binding.ivProfile)
         bottomSheet = HomeBottomSheetFragment(::bottomSheetViewController)
-        setUserLocationToFirestore()
+//        setUserLocationToFirestore()
         ifClassRoomListEmptyShowEmpty()
         whenNoInternet()
         fabButtonOnClick()
@@ -77,6 +77,14 @@ class HomeFragment : Fragment() {
         whenUnEnrolledFromClass() // Student feature
 //        askForNotificationPermission()
         setUpRecyclerView()
+        lifecycleScope.launch {
+            networkViewModel.isConnected.collectLatest {
+                if (it) {
+                    setUserLocationToFirestore()
+                }
+            }
+        }
+
         binding.vBackArrow.setOnClickListener {
             requireActivity().finish()
         }
