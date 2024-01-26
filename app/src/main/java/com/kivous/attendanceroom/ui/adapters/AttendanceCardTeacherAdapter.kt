@@ -9,9 +9,8 @@ import com.kivous.attendanceroom.data.models.Attendance
 import com.kivous.attendanceroom.databinding.ListAttendanceCardBinding
 
 class AttendanceCardTeacherAdapter(
-    options: FirestoreRecyclerOptions<Attendance>, private val
-    viewController: (ViewHolder, Attendance) -> Unit
-
+    options: FirestoreRecyclerOptions<Attendance>,
+    private val viewController: (ViewHolder, Attendance) -> Unit
 ) : FirestoreRecyclerAdapter<Attendance, AttendanceCardTeacherAdapter.ViewHolder>(options) {
     class ViewHolder(val binding: ListAttendanceCardBinding) : RecyclerView.ViewHolder(binding.root)
 

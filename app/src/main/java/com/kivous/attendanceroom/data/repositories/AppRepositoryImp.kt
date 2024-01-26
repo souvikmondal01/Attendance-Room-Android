@@ -60,14 +60,15 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 class AppRepositoryImp @Inject constructor(
     private val auth: FirebaseAuth, private val db: FirebaseFirestore
 ) : AppRepository {
@@ -75,18 +76,24 @@ class AppRepositoryImp @Inject constructor(
     override fun setUserDetailsToFirestore(): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            val user = User()
-            user.id = auth.currentUser!!.uid
-            user.name = auth.currentUser!!.displayName
-            user.email = auth.currentUser!!.email
-            user.photoUrl = auth.currentUser!!.photoUrl.toString()
-            user.lastLogin = Date().toString()
+            val id = auth.currentUser!!.uid
+            val name = auth.currentUser!!.displayName
+            val email = auth.currentUser!!.email
+            val photoUrl = auth.currentUser!!.photoUrl.toString()
+            val user = User(
+                id = id,
+                name = name,
+                email = email,
+                photoUrl = photoUrl,
+                lastLogin = Date().toString()
+            )
             db.collection(USER_COLLECTION_NAME).document(auth.currentUser!!.uid).set(user).await()
             emit(Response.Success(SUCCESS_CODE))
+
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun generateClassJoinCode(code: (String) -> Unit) {
         val characters = ('A'..'Z') + ('a'..'z') + ('0'..'9')
@@ -103,7 +110,7 @@ class AppRepositoryImp @Inject constructor(
     override fun isCodeAlreadyExists(code: String, isExist: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val data = db.collection(EXISTING_CODE_COLLECTION_NAME).document(CODE).get().await()
-            val codes = data.data?.get(CODE) as ArrayList<*>
+            val codes = data.data?.get(CODE) as ArrayList<String>
             withContext(Dispatchers.Main) {
                 if (code in codes) {
                     isExist.invoke(true)
@@ -120,22 +127,12 @@ class AppRepositoryImp @Inject constructor(
         try {
             emit(Response.Loading())
             delay(1000)
-            val email = auth.currentUser!!.email.toString()
-            classRoom.creatorName = auth.currentUser!!.displayName.toString()
-            classRoom.creatorEmail = email
-            classRoom.creatorPhotoUrl = auth.currentUser!!.photoUrl.toString()
-            classRoom.date = Date()
-            classRoom.timestamp = timeStamp()
-            classRoom.teacherEmailList = arrayListOf(email)
-            classRoom.studentEmailList = arrayListOf()
-            classRoom.participantEmailList = arrayListOf(email)
             db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).set(classRoom).await()
             emit(Response.Success(SUCCESS_CODE))
         } catch (e: Exception) {
             emit(Response.Error(FAILURE_CODE))
         }
-
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun addCodeToFirestoreCodeList(code: String) {
         try {
@@ -167,7 +164,7 @@ class AppRepositoryImp @Inject constructor(
                 emit(Response.Error(e.message ?: ERROR_MSG))
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun getStudentsFirestoreRecyclerOptions(code: String): Flow<Response<FirestoreRecyclerOptions<User>>> =
         flow {
@@ -185,7 +182,7 @@ class AppRepositoryImp @Inject constructor(
                 emit(Response.Error(e.message ?: ERROR_MSG))
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun getChatFirestoreRecyclerOptions(code: String): Flow<Response<FirestoreRecyclerOptions<Chat>>> =
         flow {
@@ -202,7 +199,7 @@ class AppRepositoryImp @Inject constructor(
             } catch (e: Exception) {
                 emit(Response.Error(e.message ?: ERROR_MSG))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun joinClassWithCode(code: String): Flow<Response<String>> = flow {
         try {
@@ -266,7 +263,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun isClassListEmpty(isArchived: Boolean): Flow<Boolean> = callbackFlow {
         val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).whereArrayContains(
@@ -277,12 +274,12 @@ class AppRepositoryImp @Inject constructor(
                 this.close(it)
             }
             result?.let {
-                val classRoomData = result.toObjects(ClassRoom::class.java)
+                val classRoomData = it.toObjects(ClassRoom::class.java)
                 this.trySend(classRoomData.isEmpty())
             }
         }
         awaitClose { this.cancel() }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun archiveClassroom(code: String): Flow<Response<String>> = flow {
         try {
@@ -292,7 +289,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun restoreClassroom(code: String): Flow<Response<String>> = flow {
         try {
@@ -302,7 +299,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun deleteClassroom(code: String): Flow<Response<String>> = flow {
         try {
@@ -312,7 +309,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun unEnrollFromClass(code: String): Flow<Response<String>> = flow {
         try {
@@ -328,9 +325,8 @@ class AppRepositoryImp @Inject constructor(
                 db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).update(
                     STUDENT_EMAIL_LIST, FieldValue.arrayRemove(auth.currentUser?.email.toString())
                 ).await()
-                removeStudentFromClassRoomStudents(code).collectLatest { }
+                removeStudentFromClassRoomStudents(code)
                 emit(Response.Success(SUCCESS_CODE))
-
             } else {
                 emit(Response.Error(FAILURE_CODE))
             }
@@ -338,7 +334,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getClassRoomDetails(code: String): Flow<Response<ClassRoom>> = callbackFlow {
         try {
@@ -346,12 +342,12 @@ class AppRepositoryImp @Inject constructor(
             db.collection(CLASS_ROOM_COLLECTION_NAME).document(code)
                 .addSnapshotListener { result, e ->
                     e?.let {
-                        this.close(it)
+                        close(it)
                     }
                     result?.let {
                         val classRoom = result.toObject(ClassRoom::class.java)
                         classRoom?.let {
-                            this.trySend(Response.Success(classRoom))
+                            trySend(Response.Success(classRoom))
                         }
                     }
                 }
@@ -361,22 +357,22 @@ class AppRepositoryImp @Inject constructor(
         }
 
         awaitClose {
-            this.cancel()
+            cancel()
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun editClassroomDetails(
         map: Map<String, Any>, code: String
     ): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            delay(1000)
+            delay(500)
             db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).update(map).await()
             emit(Response.Success(SUCCESS_CODE))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun setLocationToFirestore(location: Location): Flow<Response<String>> = flow {
         try {
@@ -400,7 +396,7 @@ class AppRepositoryImp @Inject constructor(
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
 
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun isStudentListEmpty(code: String): Flow<Boolean> = callbackFlow {
         db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).addSnapshotListener { result, e ->
@@ -415,7 +411,7 @@ class AppRepositoryImp @Inject constructor(
         awaitClose {
             cancel()
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun removeStudentFromClassRoomByTeacher(
         code: String, user: User
@@ -437,14 +433,14 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun createAttendanceCard(
         attendance: Attendance, code: String
     ): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            delay(1000)
+            delay(500)
             val result = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).get().await()
             val participantsList = result.data?.get(PARTICIPANT_EMAIL_LIST) as ArrayList<String>
             val dbRef =
@@ -465,7 +461,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getAttendanceCardTeacherRecyclerOptions(code: String): Flow<Response<FirestoreRecyclerOptions<Attendance>>> =
         flow {
@@ -485,7 +481,7 @@ class AppRepositoryImp @Inject constructor(
             } catch (e: Exception) {
                 emit(Response.Error(e.message ?: ERROR_MSG))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun isAttendanceCardListEmpty(code: String): Flow<Boolean> = flow {
         val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).collection(ATTENDANCE)
@@ -495,7 +491,43 @@ class AppRepositoryImp @Inject constructor(
         val result = dbRef.get().await()
         val attendanceCard = result.toObjects(Attendance::class.java)
         emit(attendanceCard.isEmpty())
-    }
+    }.flowOn(Dispatchers.IO)
+
+    fun isTeacherAttendanceCardListEmpty(code: String): Flow<Boolean> = callbackFlow {
+        val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).collection(ATTENDANCE)
+            .whereEqualTo(
+                ACTIVE, true
+            )
+        dbRef.addSnapshotListener { result, e ->
+            e?.let {
+                close(it)
+            }
+            result?.let {
+                val attendanceCard = it.toObjects(Attendance::class.java)
+                trySend(attendanceCard.isEmpty())
+            }
+        }
+        awaitClose { cancel() }
+    }.flowOn(Dispatchers.IO)
+
+    fun isStudentAttendanceCardListEmpty(code: String): Flow<Boolean> = callbackFlow {
+        val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).collection(ATTENDANCE)
+            .whereEqualTo(
+                ACTIVE, true
+            ).whereArrayContains(
+                PARTICIPANT_EMAIL_LIST, auth.currentUser!!.email.toString()
+            )
+        dbRef.addSnapshotListener { result, e ->
+            e?.let {
+                close(it)
+            }
+            result?.let {
+                val attendanceCard = it.toObjects(Attendance::class.java)
+                trySend(attendanceCard.isEmpty())
+            }
+        }
+        awaitClose { cancel() }
+    }.flowOn(Dispatchers.IO)
 
     override fun deleteAttendanceCard(code: String, id: String): Flow<Response<String>> = flow {
         try {
@@ -507,8 +539,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun toggleLocationCheck(code: String, id: String): Flow<Response<String>> = flow {
         try {
@@ -524,8 +555,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun toggleSingleDeviceSingleResponse(
         code: String, id: String
@@ -545,8 +575,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun doneTakingAttendance(code: String, id: String): Flow<Response<String>> = flow {
         try {
@@ -557,14 +586,14 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getLocationCheckStatus(code: String, id: String): Flow<Boolean> = flow {
         val result = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).collection(ATTENDANCE)
             .document(id).get().await()
         val locationCheckStatus = result.data?.get(LOCATION_CHECK) as Boolean
         emit(locationCheckStatus)
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getSingleDeviceSingleResponseStatus(code: String, id: String): Flow<Boolean> =
         flow {
@@ -573,7 +602,7 @@ class AppRepositoryImp @Inject constructor(
                     .document(id).get().await()
             val data = result.data?.get(SINGLE_DEVICE_SINGLE_RESPONSE) as Boolean
             emit(data)
-        }
+        }.flowOn(Dispatchers.IO)
 
     @SuppressLint("HardwareIds")
     override fun giveAttendanceResponse(
@@ -626,7 +655,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getResponseCount(classCode: String, attendanceId: String): Flow<Int> =
         callbackFlow {
@@ -648,7 +677,7 @@ class AppRepositoryImp @Inject constructor(
                 cancel()
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun setFinalResponseList(
         classCode: String, attendanceId: String
@@ -659,17 +688,29 @@ class AppRepositoryImp @Inject constructor(
                 ATTENDANCE
             ).document(attendanceId)
             val result = dbRef.get().await()
-            val attendance = Attendance()
-            attendance.id = result.id
-            attendance.creatorName = result.data?.get(Constant.CREATOR_NAME).toString()
-            attendance.creatorEmail = result.data?.get(Constant.CREATOR_Email).toString()
-            attendance.creatorPhotoUrl = result.data?.get(CREATOR_PHOTO_URL).toString()
-            attendance.date = result.data?.get(DATE).toString()
-            attendance.notes = result.data?.get(NOTES).toString()
-            attendance.createdAt = result.data?.get(CREATED_AT).toString()
-            attendance.code = result.data?.get(CODE).toString()
-            attendance.attendanceType = result.data?.get(Constant.ATTENDANCE_TYPE).toString()
-            attendance.timestamp = timeStamp()
+            val id = result.id
+            val creatorName = result.data?.get(Constant.CREATOR_NAME).toString()
+            val creatorEmail = result.data?.get(Constant.CREATOR_Email).toString()
+            val creatorPhotoUrl = result.data?.get(CREATOR_PHOTO_URL).toString()
+            val date = result.data?.get(DATE).toString()
+            val notes = result.data?.get(NOTES).toString()
+            val createdAt = result.data?.get(CREATED_AT).toString()
+            val code = result.data?.get(CODE).toString()
+            val attendanceType = result.data?.get(Constant.ATTENDANCE_TYPE).toString()
+            val timestamp = timeStamp()
+
+            val attendance = Attendance(
+                id = id,
+                creatorName = creatorName,
+                creatorEmail = creatorEmail,
+                creatorPhotoUrl = creatorPhotoUrl,
+                date = date,
+                notes = notes,
+                createdAt = createdAt,
+                code = code,
+                attendanceType = attendanceType,
+                timestamp = timestamp
+            )
             val responseResult = dbRef.collection(RESPONSE).get().await()
             attendance.finalResponseList =
                 responseResult.toObjects(User::class.java) as ArrayList<User>
@@ -681,7 +722,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     @SuppressLint("HardwareIds")
     override fun getIsResponseAlreadyGivenFromThisDevice(
@@ -700,7 +741,7 @@ class AppRepositoryImp @Inject constructor(
         } else {
             emit(false)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getStudentList(classCode: String): Flow<Response<List<User>>> = flow {
         try {
@@ -715,14 +756,14 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun setManualResponseList(
         classCode: String, attendance: Attendance
     ): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            delay(1000)
+            delay(500)
             val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).document(classCode).collection(
                 FINAL_ATTENDANCE_LIST
             )
@@ -740,7 +781,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getAttendanceHistory(classCode: String): Flow<Response<List<Attendance>>> = flow {
         try {
@@ -753,7 +794,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getFinalResponseList(
         classCode: String, attendanceId: String
@@ -800,22 +841,22 @@ class AppRepositoryImp @Inject constructor(
             } catch (e: Exception) {
                 emit(Response.Error(e.message ?: ERROR_MSG))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun getStudentAttendanceHistory(classCode: String): Flow<Response<List<Attendance>>> =
         callbackFlow {
             trySend(Response.Loading())
             db.collection(USER_COLLECTION_NAME).document(auth.currentUser!!.uid)
                 .collection(classCode).addSnapshotListener { result, e ->
-                    result.let {
+                    result?.let {
                         val attendanceList =
-                            result?.toObjects(Attendance::class.java) as List<Attendance>
+                            it.toObjects(Attendance::class.java) as List<Attendance>
                         trySend(Response.Success(attendanceList))
                     }
 
                     e?.let {
                         trySend(Response.Error(e.message ?: ERROR_MSG))
-                        close()
+                        close(it)
                     }
 
                 }
@@ -824,7 +865,7 @@ class AppRepositoryImp @Inject constructor(
                 cancel()
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
 
     override fun deleteAttendanceHistory(
         classCode: String, attendanceId: String
@@ -839,7 +880,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun setChatToFirestore(classCode: String, chat: Chat): Flow<Response<String>> = flow {
         try {
@@ -861,7 +902,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun deleteChat(classCode: String, chatId: String): Flow<Response<String>> = flow {
         try {
@@ -872,7 +913,7 @@ class AppRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
 
 }

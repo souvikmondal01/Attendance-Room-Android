@@ -16,16 +16,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.kivous.attendanceroom.R
 import com.kivous.attendanceroom.utils.Constant.TAG
 
-fun Activity.toast(msg: String) {
+fun Activity.toast(msg: String) =
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-}
 
-fun Fragment.toast(msg: Any?) {
+fun Fragment.toast(msg: Any?) =
     msg?.let {
         Toast.makeText(requireContext(), msg.toString(), Toast.LENGTH_SHORT).show()
     }
-
-}
 
 fun View.gone() {
     visibility = View.GONE
@@ -39,12 +36,10 @@ fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun logD(msg: Any) {
-    Log.d(TAG, msg.toString())
-}
+fun logD(msg: Any) = Log.d(TAG, msg.toString())
 
 fun Fragment.clipBoard(text: String) {
-    val clipBoard: ClipboardManager =
+    val clipBoard =
         requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipBoard.text = text
 }
@@ -60,17 +55,10 @@ fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 }
 
-
-fun Fragment.glideCircle(url: Any?, view: ImageView) {
+fun ImageView.glideCircle(context: Context, url: Any?) {
     url?.let {
-        Glide.with(requireContext()).load(url.toString()).placeholder(R.drawable.account_circle)
-            .circleCrop().into(view)
-    }
-}
-
-fun Fragment.glide(url: Any?, view: ImageView) {
-    url?.let {
-        Glide.with(requireContext()).load(url.toString()).centerCrop().into(view)
+        Glide.with(context).load(it.toString()).placeholder(R.drawable.outline_account_circle)
+            .circleCrop().into(this)
     }
 }
 

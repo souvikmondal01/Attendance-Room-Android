@@ -9,7 +9,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kivous.attendanceroom.data.repositories.AppRepository
 import com.kivous.attendanceroom.data.repositories.AppRepositoryImp
-import com.kivous.attendanceroom.location.ListenLocation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,19 +31,12 @@ object AppModule {
     @Singleton
     @Provides
     fun providesRepository(
-        auth: FirebaseAuth,
-        firestore: FirebaseFirestore
-    ): AppRepository =
-        AppRepositoryImp(auth, firestore)
+        auth: FirebaseAuth, firestore: FirebaseFirestore
+    ): AppRepository = AppRepositoryImp(auth, firestore)
 
     @Singleton
     @Provides
-    fun providesConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
-        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
-
-    @Singleton
-    @Provides
-    fun providesLocation() = ListenLocation()
+    fun providesConnectivityManager(@ApplicationContext context: Context): ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 }

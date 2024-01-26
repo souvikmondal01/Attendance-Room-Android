@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kivous.attendanceroom.data.models.Attendance
 import com.kivous.attendanceroom.databinding.ListAttendanceHistoryTeacherBinding
 
-class AttendanceHistoryAdapter(private val manualAttendanceAdapterViewController: (ViewHolder, Attendance) -> Unit) :
-    ListAdapter<Attendance, AttendanceHistoryAdapter.ViewHolder>(DiffUtil()) {
+class AttendanceHistoryAdapter(
+    private val viewController: (ViewHolder, Attendance) -> Unit
+) : ListAdapter<Attendance, AttendanceHistoryAdapter.ViewHolder>(DiffUtil()) {
     class ViewHolder(val binding: ListAttendanceHistoryTeacherBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -21,7 +22,7 @@ class AttendanceHistoryAdapter(private val manualAttendanceAdapterViewController
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val attendanceData = getItem(position)
-        manualAttendanceAdapterViewController(holder, attendanceData)
+        viewController(holder, attendanceData)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Attendance>() {

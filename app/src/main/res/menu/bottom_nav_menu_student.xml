@@ -3,14 +3,14 @@
     <item
         android:id="@+id/attendanceStudentFragment"
         android:icon="@drawable/checklist_rtl"
-        android:title="Attendance" />
+        android:title="" />
     <item
         android:id="@+id/communicateFragment"
         android:icon="@drawable/chat"
-        android:title="Communicate" />
+        android:title="" />
 
     <item
         android:id="@+id/participantsStudentFragment"
         android:icon="@drawable/people"
-        android:title="Participants" />
+        android:title="" />
 </menu>

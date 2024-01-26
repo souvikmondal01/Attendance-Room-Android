@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kivous.attendanceroom.data.models.User
 import com.kivous.attendanceroom.databinding.ListManualAttendanceBinding
 
-class ManualAttendanceAdapter(private val manualAttendanceAdapterViewController: (ViewHolder, User) -> Unit) :
-    ListAdapter<User, ManualAttendanceAdapter.ViewHolder>(DiffUtil()) {
+class ManualAttendanceAdapter(
+    private val viewController: (ViewHolder, User) -> Unit
+) : ListAdapter<User, ManualAttendanceAdapter.ViewHolder>(DiffUtil()) {
     class ViewHolder(val binding: ListManualAttendanceBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -21,7 +22,7 @@ class ManualAttendanceAdapter(private val manualAttendanceAdapterViewController:
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val userData = getItem(position)
-        manualAttendanceAdapterViewController(holder, userData)
+        viewController(holder, userData)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<User>() {

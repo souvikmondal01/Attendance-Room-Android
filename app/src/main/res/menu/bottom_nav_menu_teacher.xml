@@ -4,15 +4,15 @@
     <item
         android:id="@+id/attendanceTeacherFragment"
         android:icon="@drawable/checklist_rtl"
-        android:title="Attendance" />
+        android:title="" />
     <item
         android:id="@+id/communicateFragment"
         android:icon="@drawable/chat"
-        android:title="Communicate" />
+        android:title="" />
 
     <item
         android:id="@+id/participantsTeacherFragment"
         android:icon="@drawable/people"
-        android:title="Participants" />
+        android:title="" />
 
 </menu>

@@ -7,11 +7,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.kivous.attendanceroom.data.models.Attendance
 import com.kivous.attendanceroom.databinding.ListAttendanceCardStudentBinding
-import kotlin.reflect.KFunction2
 
 class AttendanceCardStudentAdapter(
-    options: FirestoreRecyclerOptions<Attendance>, private val
-    viewController: KFunction2<ViewHolder, Attendance, Unit>
+    options: FirestoreRecyclerOptions<Attendance>,
+    private val viewController: (ViewHolder, Attendance) -> Unit
 ) : FirestoreRecyclerAdapter<Attendance, AttendanceCardStudentAdapter.ViewHolder>(options) {
     class ViewHolder(val binding: ListAttendanceCardStudentBinding) :
         RecyclerView.ViewHolder(binding.root)

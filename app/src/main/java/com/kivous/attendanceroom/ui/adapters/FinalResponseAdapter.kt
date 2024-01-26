@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kivous.attendanceroom.data.models.User
 import com.kivous.attendanceroom.databinding.ListResponseBinding
-import kotlin.reflect.KFunction2
 
-class FinalResponseAdapter(val finalResponseAdapterViewController: KFunction2<ViewHolder, User, Unit>) :
-    ListAdapter<User, FinalResponseAdapter.ViewHolder>(DiffUtil()) {
+class FinalResponseAdapter(
+    val viewController: (ViewHolder, User) -> Unit
+) : ListAdapter<User, FinalResponseAdapter.ViewHolder>(DiffUtil()) {
     class ViewHolder(val binding: ListResponseBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +21,7 @@ class FinalResponseAdapter(val finalResponseAdapterViewController: KFunction2<Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val userData = getItem(position)
-        finalResponseAdapterViewController(holder, userData)
+        viewController(holder, userData)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<User>() {

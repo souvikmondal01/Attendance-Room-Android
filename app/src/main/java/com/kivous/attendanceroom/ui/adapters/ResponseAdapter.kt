@@ -7,11 +7,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.kivous.attendanceroom.data.models.User
 import com.kivous.attendanceroom.databinding.ListResponseBinding
-import kotlin.reflect.KFunction2
 
 class ResponseAdapter(
-    options: FirestoreRecyclerOptions<User>,
-    private val responseAdapterViewController: KFunction2<ViewHolder, User, Unit>
+    options: FirestoreRecyclerOptions<User>, private val viewController: (ViewHolder, User) -> Unit
 ) : FirestoreRecyclerAdapter<User, ResponseAdapter.ViewHolder>(options) {
     class ViewHolder(val binding: ListResponseBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -23,6 +21,6 @@ class ResponseAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: User) {
-        responseAdapterViewController(holder, model)
+        viewController(holder, model)
     }
 }

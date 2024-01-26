@@ -69,6 +69,7 @@
             android:id="@+id/iv_three_dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             android:src="@drawable/more_vert"
             app:layout_constraintBottom_toBottomOf="@id/v_three_dot"
             app:layout_constraintEnd_toEndOf="@id/v_three_dot"

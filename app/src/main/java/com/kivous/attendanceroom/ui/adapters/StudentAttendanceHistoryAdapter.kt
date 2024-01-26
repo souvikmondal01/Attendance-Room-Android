@@ -7,11 +7,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.kivous.attendanceroom.data.models.Attendance
 import com.kivous.attendanceroom.databinding.ListAttendanceHistoryStudentBinding
-import kotlin.reflect.KFunction2
 
 class StudentAttendanceHistoryAdapter(
     options: FirestoreRecyclerOptions<Attendance>,
-    private val studentAttendanceHistoryAdapterViewController: KFunction2<ViewHolder, Attendance, Unit>
+    private val viewController: (ViewHolder, Attendance) -> Unit
 ) : FirestoreRecyclerAdapter<Attendance, StudentAttendanceHistoryAdapter.ViewHolder>(options) {
     class ViewHolder(val binding: ListAttendanceHistoryStudentBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -24,7 +23,7 @@ class StudentAttendanceHistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Attendance) {
-        studentAttendanceHistoryAdapterViewController(holder, model)
+        viewController(holder, model)
     }
 
 }

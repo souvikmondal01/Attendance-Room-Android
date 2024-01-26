@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.AttendanceTeacherFragment">
+    tools:context=".ui.fragments.teacher.AttendanceTeacherFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/v_back_arrow"
+                android:id="@+id/cv_back_arrow"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="300dp"
@@ -135,6 +135,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="4dp"
         android:elevation="1dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

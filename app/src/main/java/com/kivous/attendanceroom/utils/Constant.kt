@@ -1,7 +1,6 @@
 package com.kivous.attendanceroom.utils
 
 object Constant {
-    const val RC_SIGN_IN = 100
     const val TAG = "SSSS"
     const val SUCCESS_CODE = "1000"
     const val FAILURE_CODE = "0000"
