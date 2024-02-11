@@ -12,68 +12,74 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="32dp"
+        android:orientation="vertical">
 
-        <View
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/v_smart_attendance"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="52dp"
+            android:backgroundTint="@android:color/transparent"
+            app:cardCornerRadius="0dp"
+            app:strokeWidth="0dp">
 
-        <View
+            <TextView
+                android:id="@+id/tv_smart_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="32dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="Smart attendance"
+                android:textSize="16sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/v_manual_attendance"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toBottomOf="@id/v_smart_attendance" />
+            android:layout_height="52dp"
+            android:backgroundTint="@android:color/transparent"
+            app:cardCornerRadius="0dp"
+            app:strokeWidth="0dp">
 
-        <View
+
+            <TextView
+                android:id="@+id/tv_manual_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="32dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="Manual attendance"
+                android:textSize="16sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/v_attendance_history"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:layout_constraintTop_toBottomOf="@id/v_manual_attendance" />
+            android:layout_height="52dp"
+            android:backgroundTint="@android:color/transparent"
+            app:cardCornerRadius="0dp"
+            app:strokeWidth="0dp">
 
-        <TextView
-            android:id="@+id/tv_smart_attendance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="32dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="Smart attendance"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/v_smart_attendance"
-            app:layout_constraintStart_toStartOf="@id/v_smart_attendance"
-            app:layout_constraintTop_toTopOf="@id/v_smart_attendance" />
 
-        <TextView
-            android:id="@+id/tv_manual_attendance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="32dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="Manual attendance"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/v_manual_attendance"
-            app:layout_constraintStart_toStartOf="@id/v_manual_attendance"
-            app:layout_constraintTop_toTopOf="@id/v_manual_attendance" />
+            <TextView
+                android:id="@+id/tv_attendance_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="32dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="Attendance history"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_attendance_history"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="32dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="Attendance history"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/v_attendance_history"
-            app:layout_constraintStart_toStartOf="@id/v_attendance_history"
-            app:layout_constraintTop_toTopOf="@id/v_attendance_history" />
+        </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </FrameLayout>

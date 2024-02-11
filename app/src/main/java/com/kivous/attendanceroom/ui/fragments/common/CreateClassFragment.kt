@@ -160,14 +160,17 @@ class CreateClassFragment : Fragment() {
                         }
 
                         is Response.Error -> {
-                            binding.apply {
-                                btnCreate.isEnabled = true
-                                etClassName.isEnabled = true
-                                etDepartment.isEnabled = true
-                                etSubject.isEnabled = true
-                                etBatch.isEnabled = true
-                                progressBar.gone()
+                            if (it.message?.isNotEmpty() == true) {
+                                binding.apply {
+                                    btnCreate.isEnabled = true
+                                    etClassName.isEnabled = true
+                                    etDepartment.isEnabled = true
+                                    etSubject.isEnabled = true
+                                    etBatch.isEnabled = true
+                                    progressBar.gone()
+                                }
                             }
+
                         }
                     }
                 }

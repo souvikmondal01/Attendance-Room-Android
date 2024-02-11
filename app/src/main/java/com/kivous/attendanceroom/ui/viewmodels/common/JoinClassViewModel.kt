@@ -18,11 +18,11 @@ class JoinClassViewModel @Inject constructor(
     private val _isJoinedToClassWithCode = MutableStateFlow<Response<String>>(Response.Error(""))
     val isJoinedToClassWithCode get() = _isJoinedToClassWithCode
 
-    fun joinClassWithCode(code: String) {
+    fun joinClassWithCode(code: String) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.joinClassWithCode(code).collect {
                 _isJoinedToClassWithCode.value = it
             }
         }
-    }
+
 }

@@ -116,11 +116,12 @@ class JoinClassFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun whenJoinedToClassWithCode() {
         lifecycleScope.launch {
-            viewModel.isJoinedToClassWithCode.collect {
+            viewModel.isJoinedToClassWithCode.collectLatest {
                 when (it) {
                     is Response.Loading -> {
                         binding.pb.visible()
@@ -140,22 +141,19 @@ class JoinClassFragment : Fragment() {
                         when (it.message) {
                             CODE_NOT_EXIST -> {
                                 materialAlertDialog(
-                                    "Class not found",
-                                    "No class with that class code."
+                                    "Class not found", "No class with that class code."
                                 )
                             }
 
                             ALREADY_TEACHER -> {
                                 materialAlertDialog(
-                                    "Already joined",
-                                    "You are the class teacher for that class."
+                                    "Already joined", "You are the class teacher for that class."
                                 )
                             }
 
                             ALREADY_STUDENT -> {
                                 materialAlertDialog(
-                                    "Already joined",
-                                    "You have already joined the class."
+                                    "Already joined", "You have already joined the class."
                                 )
                             }
 
@@ -176,11 +174,9 @@ class JoinClassFragment : Fragment() {
     private fun materialAlertDialog(title: String, message: String) {
         MaterialAlertDialogBuilder(
             requireContext()
-        ).setTitle(title)
-            .setMessage(message)
-            .setNegativeButton("Dismiss") { dialog, _ ->
-                dialog.dismiss()
-            }.setCancelable(true).show()
+        ).setTitle(title).setMessage(message).setNegativeButton("Dismiss") { dialog, _ ->
+            dialog.dismiss()
+        }.setCancelable(true).show()
     }
 
 }

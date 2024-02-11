@@ -126,7 +126,7 @@ class AppRepositoryImp @Inject constructor(
     ): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            delay(1000)
+            delay(500)
             db.collection(CLASS_ROOM_COLLECTION_NAME).document(code).set(classRoom).await()
             emit(Response.Success(SUCCESS_CODE))
         } catch (e: Exception) {
@@ -204,26 +204,26 @@ class AppRepositoryImp @Inject constructor(
     override fun joinClassWithCode(code: String): Flow<Response<String>> = flow {
         try {
             emit(Response.Loading())
-            delay(1000)
+            delay(500)
             val dbRef = db.collection(CLASS_ROOM_COLLECTION_NAME).document(code)
             val codeResult =
                 db.collection(EXISTING_CODE_COLLECTION_NAME).document(CODE).get().await()
             val codeList: ArrayList<String> = codeResult.data?.get(CODE) as ArrayList<String>
             val result = dbRef.get().await()
-            val canJoin: Boolean = result.data?.get(CAN_JOIN) as Boolean
-            val teacherList: ArrayList<String> =
-                result.data?.get(TEACHER_EMAIL_LIST) as ArrayList<String>
-            val studentList: ArrayList<String> =
-                result.data?.get(STUDENT_EMAIL_LIST) as ArrayList<String>
-            val participantEmailList: ArrayList<String> =
-                result.data?.get(PARTICIPANT_EMAIL_LIST) as ArrayList<String>
+            val canJoin: Boolean = result.data?.get(CAN_JOIN) as? Boolean == true
+            val teacherList: ArrayList<String>? =
+                result.data?.get(TEACHER_EMAIL_LIST) as? ArrayList<String>
+            val studentList: ArrayList<String>? =
+                result.data?.get(STUDENT_EMAIL_LIST) as? ArrayList<String>
+            val participantEmailList: ArrayList<String>? =
+                result.data?.get(PARTICIPANT_EMAIL_LIST) as? ArrayList<String>
 
             if (codeList.contains(code)) {
-                if (teacherList.contains(auth.currentUser?.email.toString())) {
+                if (teacherList?.contains(auth.currentUser?.email.toString()) == true) {
                     emit(Response.Error(ALREADY_TEACHER))
                 } else {
                     if (canJoin) {
-                        if (studentList.contains(auth.currentUser?.email.toString())) {
+                        if (studentList?.contains(auth.currentUser?.email.toString()) == true) {
                             emit(Response.Error(Constant.ALREADY_STUDENT))
                         } else {
                             studentList.let {
@@ -261,6 +261,7 @@ class AppRepositoryImp @Inject constructor(
             }
 
         } catch (e: Exception) {
+            logD(e.message.toString())
             emit(Response.Error(e.message ?: ERROR_MSG))
         }
     }.flowOn(Dispatchers.IO)
