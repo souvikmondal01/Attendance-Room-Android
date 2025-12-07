@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.kivous.attendanceroom" />
-                  <option name="mobileSdkAppId" value="1:734725076654:android:c6b4c5b28fc67cc8d2df3f" />
+                  <option name="appId" value="com.souvikmondal01.attendanceroom" />
+                  <option name="mobileSdkAppId" value="1:734725076654:android:a00c872553f56db3d2df3f" />
                   <option name="projectId" value="attendance-bb8ca" />
                   <option name="projectNumber" value="734725076654" />
                 </ConnectionSetting>

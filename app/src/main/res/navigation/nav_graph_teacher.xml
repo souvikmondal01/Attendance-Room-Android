@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/attendanceTeacherFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.AttendanceTeacherFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.AttendanceTeacherFragment"
         android:label="fragment_attendance_teacher"
         tools:layout="@layout/fragment_attendance_teacher">
         <action
@@ -28,22 +28,22 @@
     </fragment>
     <fragment
         android:id="@+id/communicateFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.common.CommunicateFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.common.CommunicateFragment"
         android:label="fragment_communicate_teacher"
         tools:layout="@layout/fragment_communicate" />
     <fragment
         android:id="@+id/participantsTeacherFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.ParticipantsTeacherFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.ParticipantsTeacherFragment"
         android:label="fragment_participants_teacher"
         tools:layout="@layout/fragment_participants_teacher" />
     <fragment
         android:id="@+id/classRoomSettingFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.ClassRoomSettingFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.ClassRoomSettingFragment"
         android:label="fragment_class_room_setting"
         tools:layout="@layout/fragment_class_room_setting" />
     <fragment
         android:id="@+id/attendanceHistoryTeacherFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.AttendanceHistoryTeacherFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.AttendanceHistoryTeacherFragment"
         android:label="fragment_attendance_history"
         tools:layout="@layout/fragment_attendance_history_teacher" >
         <action
@@ -52,22 +52,22 @@
     </fragment>
     <fragment
         android:id="@+id/manualAttendanceFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.ManualAttendanceFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.ManualAttendanceFragment"
         android:label="fragment_manual_attendance"
         tools:layout="@layout/fragment_manual_attendance" />
     <fragment
         android:id="@+id/smartAttendanceFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.SmartAttendanceFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.SmartAttendanceFragment"
         android:label="fragment_smart_attendance"
         tools:layout="@layout/fragment_smart_attendance" />
     <fragment
         android:id="@+id/responseListFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.ResponseListFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.ResponseListFragment"
         android:label="fragment_attendance_list"
         tools:layout="@layout/fragment_response_list"/>
     <fragment
         android:id="@+id/finalResponseListFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.teacher.FinalResponseListFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.teacher.FinalResponseListFragment"
         android:label="fragment_final_response_list"
         tools:layout="@layout/fragment_final_response_list" />
 </navigation>

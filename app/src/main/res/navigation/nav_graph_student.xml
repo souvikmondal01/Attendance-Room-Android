@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/attendanceStudentFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.student.AttendanceStudentFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.student.AttendanceStudentFragment"
         android:label="fragment_attendance_student"
         tools:layout="@layout/fragment_attendance_student" >
         <action
@@ -19,27 +19,27 @@
     </fragment>
     <fragment
         android:id="@+id/communicateStudentFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.CommunicateStudentFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.CommunicateStudentFragment"
         android:label="fragment_communicate_student"
         tools:layout="@layout/fragment_communicate_student" />
     <fragment
         android:id="@+id/participantsStudentFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.student.ParticipantsStudentFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.student.ParticipantsStudentFragment"
         android:label="fragment_participants_student"
         tools:layout="@layout/fragment_participants_student" />
     <fragment
         android:id="@+id/aboutStudentFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.student.AboutStudentFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.student.AboutStudentFragment"
         android:label="fragment_about_student"
         tools:layout="@layout/fragment_about_student" />
     <fragment
         android:id="@+id/attendanceHistoryStudentFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.student.AttendanceHistoryStudentFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.student.AttendanceHistoryStudentFragment"
         android:label="fragment_attendance_history_student"
         tools:layout="@layout/fragment_attendance_history_student" />
     <fragment
         android:id="@+id/communicateFragment"
-        android:name="com.kivous.attendanceroom.ui.fragments.common.CommunicateFragment"
+        android:name="com.souvikmondal01.attendanceroom.ui.fragments.common.CommunicateFragment"
         android:label="fragment_communicate_teacher"
         tools:layout="@layout/fragment_communicate" />
 </navigation>
